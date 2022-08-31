@@ -1,0 +1,37 @@
+spring:
+  cloud:
+    azure:
+      servicebus:
+        connection-string: ${SERVICEBUS_CONNECTION_STRING}
+    stream:
+      function:
+        definition: function1;function2
+      bindings:
+        function1-in-0:
+          destination: ${SERVICEBUS_QUEUE_1_NAME}
+        function1-out-0:
+          destination: ${SERVICEBUS_TOPIC_NAME}
+        function2-in-0:
+          destination: ${SERVICEBUS_QUEUE_2_NAME}
+        function2-out-0:
+          destination: ${SERVICEBUS_TOPIC_NAME}
+      servicebus:
+        bindings:
+          function1-in-0:
+            consumer:
+              entity-type: queue
+              prefetch-count: 0
+              max-concurrent-calls: 9
+              max-auto-lock-renew-duration: 60M
+          function1-out-0:
+            producer:
+              entity-type: topic
+          function2-in-0:
+            consumer:
+              entity-type: queue
+              prefetch-count: 0
+              max-concurrent-calls: 9
+              max-auto-lock-renew-duration: 60M
+          function2-out-0:
+            producer:
+              entity-type: topic
